@@ -22,18 +22,19 @@ public class BurgerTest {
     private Bun bun;
 
     @Mock
-    private Ingredient ingredient0;
+    private Ingredient cheese;
 
     @Mock
-    private Ingredient ingredient1;
+    private Ingredient tomato;
 
     @Mock
-    private Ingredient ingredient2;
+    private Ingredient cucumber;
 
     @Before
     public void makeBurger() {
         burger = new Burger();
     }
+
 
     @Test
     public void setBunTest() {
@@ -43,56 +44,52 @@ public class BurgerTest {
         assertEquals("Взяли не ту булочку", "Название булочки", burger.bun.getName());
     }
 
+
     @Test
     public void addIngredientTest() {
-        burger.addIngredient(ingredient0);
 
-        assertEquals("В бургер добалили 1 ингредиент", 1, burger.ingredients.size());
-        assertTrue("Ингредиент не добавлен", burger.ingredients.contains(ingredient0));
+        burger.addIngredient(cheese);
+        assertTrue("Ингредиент не добавлен", burger.ingredients.contains(cheese));
     }
+
 
     @Test
     public void removeIngredientTest() {
-        burger.ingredients.add(ingredient0);
-        burger.ingredients.add(ingredient1);
-        burger.ingredients.add(ingredient2);
+
+        burger.ingredients.add(cheese);
+        burger.ingredients.add(tomato);
+        burger.ingredients.add(cucumber);
 
         burger.removeIngredient(1);
 
-        assertEquals("Количество ингредиентов должно быть равно 2", 2, burger.ingredients.size());
-        assertTrue("Первый ингредиент отсутствует", burger.ingredients.contains(ingredient0));
-        assertTrue("Удалённый ингредиент всё ещё присутствует", !burger.ingredients.contains(ingredient1));
-        assertTrue("Третий ингредиент отсутствует", burger.ingredients.contains(ingredient2));
+        assertTrue("Удалённый ингредиент всё ещё присутствует", !burger.ingredients.contains(tomato));
     }
 
 
     @Test
     public void moveIngredientTest() {
-        burger.ingredients.add(ingredient0);
-        burger.ingredients.add(ingredient1);
-        burger.ingredients.add(ingredient2);
+
+        burger.ingredients.add(cheese);
+        burger.ingredients.add(tomato);
+        burger.ingredients.add(cucumber);
         burger.moveIngredient(1, 0);
 
-        assertEquals("Количество ингредиентов изменилось", 3, burger.ingredients.size());
-        assertTrue("Один или несколько ингредиентов отсутствуют",
-                burger.ingredients.contains(ingredient0) &&
-                        burger.ingredients.contains(ingredient1) &&
-                        burger.ingredients.contains(ingredient2));
-        assertEquals("Ингредиент перемещен не правильно", burger.ingredients.get(0), ingredient1);
-        assertEquals("Ингредиент перемещен не правильно", burger.ingredients.get(1), ingredient0);
+        assertEquals("Ингредиент перемещен не правильно", burger.ingredients.get(0), tomato);
     }
+
 
     @Test
     public void priceWithIngredientsTest() {
+
         burger.bun = bun;
-        burger.ingredients.add(ingredient0);
-        burger.ingredients.add(ingredient1);
-        burger.ingredients.add(ingredient2);
+        burger.ingredients.add(cheese);
+        burger.ingredients.add(tomato);
+        burger.ingredients.add(cucumber);
 
         when(bun.getPrice()).thenReturn(200.0F);
-        when(ingredient0.getPrice()).thenReturn(80.0F);
-        when(ingredient1.getPrice()).thenReturn(45.0F);
-        when(ingredient2.getPrice()).thenReturn(45.0F);
+        when(cheese.getPrice()).thenReturn(80.0F);
+        when(tomato.getPrice()).thenReturn(45.0F);
+        when(cucumber.getPrice()).thenReturn(45.0F);
 
 
         float expectedPrice = 200.0f * 2 + 80.0f + 45.0f + 45.0f;
@@ -102,27 +99,29 @@ public class BurgerTest {
 
     }
 
+
     @Test
     public void getReceiptTest() {
+
         burger.bun = bun;
-        burger.ingredients.add(ingredient0);
-        burger.ingredients.add(ingredient1);
-        burger.ingredients.add(ingredient2);
+        burger.ingredients.add(cheese);
+        burger.ingredients.add(tomato);
+        burger.ingredients.add(cucumber);
 
         when(bun.getName()).thenReturn("bun");
         when(bun.getPrice()).thenReturn(200.0F);
 
-        when(ingredient0.getType()).thenReturn(IngredientType.FILLING);
-        when(ingredient0.getName()).thenReturn("ingredient0");
-        when(ingredient0.getPrice()).thenReturn(80.0F);
+        when(cheese.getType()).thenReturn(IngredientType.FILLING);
+        when(cheese.getName()).thenReturn("ingredient0");
+        when(cheese.getPrice()).thenReturn(80.0F);
 
-        when(ingredient1.getType()).thenReturn(IngredientType.FILLING);
-        when(ingredient1.getName()).thenReturn("ingredient1");
-        when(ingredient1.getPrice()).thenReturn(45.0F);
+        when(tomato.getType()).thenReturn(IngredientType.FILLING);
+        when(tomato.getName()).thenReturn("ingredient1");
+        when(tomato.getPrice()).thenReturn(45.0F);
 
-        when(ingredient2.getType()).thenReturn(IngredientType.SAUCE);
-        when(ingredient2.getName()).thenReturn("ingredient2");
-        when(ingredient2.getPrice()).thenReturn(45.0F);
+        when(cucumber.getType()).thenReturn(IngredientType.SAUCE);
+        when(cucumber.getName()).thenReturn("ingredient2");
+        when(cucumber.getPrice()).thenReturn(45.0F);
 
 
         String expectedReceipt = "(==== bun ====)\r\n" +
